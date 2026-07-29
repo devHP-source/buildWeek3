@@ -10,8 +10,19 @@ const artistAvatar = document.getElementById('artist-avatar')
 
 // FETCH PRINCIPALE
 const loadAlbumPage = async () => {
+    if (!albumId) {
+        console.log(`Nell'indirizzo della pagina manca l'ID dell'album.`)
+        return
+    }
+
     try {
         const result = await fetch(`${endpointAlbum}${albumId}`)
+
+        if (!result.ok) {
+            console.log(`Errore album: ${result.status} ${result.statusText}`)
+            return
+        }
+
         const data = await result.json()
         console.log(data)
         displayAlbumHeader(data)
@@ -31,9 +42,31 @@ const displayAlbumHeader = (album) => {
 
     titleElement.innerText = album.title
     albumArtist.innerText = album.artist.name
+    albumArtist.href = `../artist/artist.html?id=${album.artist.id}`
 
     artistAvatar.src = album.artist.picture_small
     artistAvatar.alt = album.artist.name
+
+    document.title = `${album.title} | Spotify Clone`
+}
+
+
+// Deezer restituisce la durata in secondi: la mostriamo come m:ss
+const formatDuration = (totalSeconds) => {
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
+                                                               /* padStart() */
+    return `${minutes}:${seconds.toString().padStart(2, '0')}` // https://www.w3schools.com/Jsref/jsref_string_padstart.asp
+}
+
+
+// Separatore delle migliaia per il numero di riproduzioni
+const formatNumber = (number) => {
+    if (typeof number !== 'number') {
+        return '0'
+    }
+
+    return number.toLocaleString('it-IT')
 }
 
 
@@ -65,11 +98,11 @@ const displayTracklist = (tracks) => {
 
         const colRank = document.createElement('div')
         colRank.classList.add('col-4','text-end','d-none','d-md-block','pe-5')
-        colRank.innerText = track.rank
+        colRank.innerText = formatNumber(track.rank)
 
         const colDuration = document.createElement('div')
         colDuration.classList.add('col','text-end','d-none','d-md-block','duration')
-        colDuration.innerText = track.duration
+        colDuration.innerText = formatDuration(track.duration)
 
         const colMobileMenu = document.createElement('div')
         colMobileMenu.classList.add('col-auto','d-md-none')
