@@ -3,7 +3,7 @@ const endpoint = 'https://striveschool-api.herokuapp.com/api/deezer/search?q={qu
 //const albumId = 256250622 //PROVA PER TROVARE DATI REALI
 
 
-/* //FETCH MUSIC PER CAPIRE STRUTTURA
+ //FETCH MUSIC PER CAPIRE STRUTTURA
 const getMusic = async()=>{
     try{
         const result = await fetch('https://striveschool-api.herokuapp.com/api/deezer/search?q=Metallica')
@@ -15,7 +15,7 @@ const getMusic = async()=>{
     }
 }
 getMusic()  
- */
+ 
 
 
 //FETCH ALBUM SPECIFICO
