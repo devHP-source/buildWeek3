@@ -14,7 +14,7 @@
 
 <body>
     <!-- Navigazione superiore -->
-    <header class="top-navbar">
+    <header class="top-navbar d-none d-md-block">
         <nav class="navbar-content" aria-label="Navigazione principale">
             <div class="navbar-left">
                 <a href="./index.html" class="spotify-logo" aria-label="Vai alla homepage">
@@ -50,7 +50,7 @@
     <!-- Layout principale -->
     <div class="row app-layout m-0">
         <!-- Libreria laterale -->
-        <aside class="sidebar col-12 col-md-3" aria-label="La tua libreria">
+        <aside class="sidebar col-md-3 d-none d-lg-block" aria-label="La tua libreria">
             <div class="sidebar-header">
                 <h2 class="sidebar-title">
                     <i class="bi bi-collection" aria-hidden="true"></i>
@@ -120,15 +120,15 @@
         <!-- Contenuto dinamico della homepage -->
         <main id="main-content" class="main-content col-12 col-md-9 pt-5">
 
+            <!-- Container per l'header dell'album -->
             <div class="container">
-                <div class="row align-items-end">
-                    <div class="col-auto"><img src="" alt="" id="album-cover"></div>
+                <div class="row justify-content-center align-items-md-end">
+                    <div class="col-auto pb-3 pb-md-0"><img src="#" alt="" id="album-cover"></div>
                     <div class="col">
-                        <small>ALBUM</small>
-                        <h1 class="album-title">Gioventù Brucata</h1>
+                        <small class="d-none d-md-block">ALBUM</small>
+                        <h1 class="album-title mt-3 mb-3">Gioventù Brucata</h1>
                         <div class="album-meta-container d-flex align-items-center gap-2 flex-wrap">
-                            <img src="" alt="Artist Photo" id="artist-avatar" class="rounded-circle artist-img">
-
+                            <img src="#" alt="Artist Photo" id="artist-avatar" class="rounded-circle artist-img">
 
                             <a href="" id="album-artist"
                                 class="text-white link-underline link-underline-opacity-0 hover-underline">Pinguini
@@ -136,33 +136,39 @@
                             </a>
                             <span class="meta-dot">&bull;</span>
                             <span class="album-meta d-md-inline">2017 </span>
-                            <span class="meta-dot">&bull;</span>
+                            <span class="meta-dot d-none d-md-block">&bull;</span>
                             <span class="album-meta d-none d-md-inline">12 brani </span>
                             <span class="album-meta text-muted d-none d-md-inline">53 min 20 sec.</span>
                         </div>
                     </div>
                 </div>
-                <div class="tracklist-section mt-4">
-                    <div class="container mt-4">
-                        <div class="row align-items-center gy-3">
-                            <div class="col-auto">
-                                <button class="btn play-button-main rounded-circle" type="button"
-                                    aria-label="Riproduci">
-                                    <i class="bi bi-play-fill fs-4"></i>
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                <i class="bi bi-heart fs-3 text-white"></i>
-                            </div>
-                            <div class="col-auto">
-                                <i class="bi bi-arrow-down-circle fs-3"></i>
-                            </div>
-                            <div class="col-auto">
-                                <i class="bi bi-three-dots fs-3 text-white"></i>
-                            </div>
+            </div> <!-- CHIUSURA CONTAINER HEADER -->
+
+            <!-- Tracklist Section a tutta larghezza -->
+            <div class="tracklist-section mt-4">
+                <div class="container">
+                    <div class="row align-items-center justify-content-between justify-content-md-start gap-md-4">
+                        <div class="col-auto d-none d-md-block order-md-1">
+                            <button
+                                class="btn play-button-main rounded-circle d-flex align-items-center justify-content-center"
+                                type="button" aria-label="Riproduci">
+                                <i class="bi bi-play-fill fs-3"></i>
+                            </button>
+                        </div>
+                        <div class="col-auto order-1 order-md-2 d-flex align-items-center gap-4">
+                            <i class="bi bi-heart fs-4"></i>
+                            <i class="bi bi-arrow-down-circle fs-4"></i>
+                            <i class="bi bi-three-dots-vertical fs-4"></i>
+                        </div>
+                        <div class="col-auto order-2 d-flex align-items-center gap-3 d-md-none">
+                            <i class="bi bi-shuffle fs-4"></i>
+                            <button
+                                class="btn play-button-main rounded-circle d-flex align-items-center justify-content-center"
+                                type="button" aria-label="Riproduci">
+                                <i class="bi bi-play-fill fs-3"></i>
+                            </button>
                         </div>
                     </div>
-
 
                     <!-- INTESTAZIONE TRACCE (visibile solo su Desktop) -->
                     <div class="container mt-4 d-none d-md-block text-muted border-bottom border-secondary pb-2">
@@ -179,9 +185,12 @@
                     <!-- CONTENITORE BRANI -->
                     <div class="container mt-2">
                         <div id="tracklist-container" class="d-flex flex-column gap-2">
+
+                            
                         </div>
                     </div>
                 </div>
+            </div>
         </main>
     </div>
 
@@ -190,10 +199,10 @@
     <footer class="player-bar">
         <!-- Parte sinistra -->
         <div class="player-left">
-            <img src="https://placehold.co/56x56" alt="Copertina del brano in riproduzione" class="player-cover" />
+            <img src="https://placehold.co/56x56" alt="Copertina del brano in riproduzione" class="player-cover d-none d-md-block" />
 
             <div class="player-song-info">
-                <h4>Nome brano</h4>
+                <p class="h4">Nome brano</p>
                 <p>Nome artista</p>
             </div>
 
