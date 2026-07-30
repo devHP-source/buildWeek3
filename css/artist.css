@@ -1,0 +1,493 @@
+/* ==================================================
+   PAGINA ARTISTA
+================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+
+.main-content.artist-page {
+  min-width: 0;
+  height: calc(100vh - 160px);
+  padding: 0 !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #121212;
+  border-radius: 8px;
+  color: white;
+}
+
+/* Scrollbar simile a Spotify */
+.artist-page::-webkit-scrollbar {
+  width: 12px;
+}
+
+.artist-page::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.artist-page::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
+
+.artist-page::-webkit-scrollbar-thumb:hover {
+  background-color: #777;
+}
+
+/* ==================================================
+   CARICAMENTO ED ERRORI
+================================================== */
+
+.page-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  gap: 15px;
+  padding: 40px;
+  color: #b3b3b3;
+  text-align: center;
+}
+
+.error-message {
+  color: #ff6b6b;
+}
+
+.artist-content {
+  width: 100%;
+  min-height: 100%;
+}
+
+/* ==================================================
+   HERO ARTISTA
+================================================== */
+
+.artist-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  min-height: clamp(320px, 42vh, 430px);
+  padding: 38px 34px;
+  overflow: hidden;
+
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Oscuramento sopra la foto */
+.artist-hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.05) 20%,
+      rgba(0, 0, 0, 0.35) 60%,
+      rgba(0, 0, 0, 0.8) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.35),
+      transparent 65%
+    );
+}
+
+.artist-information {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.verified-artist {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.verified-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #3d91f4;
+  color: white;
+  font-size: 13px;
+}
+
+#artistName {
+  max-width: 100%;
+  margin: 0;
+
+  font-size: clamp(54px, 7vw, 104px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -4px;
+
+  overflow-wrap: break-word;
+}
+
+#artistFans {
+  margin: 24px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ==================================================
+   AZIONI ARTISTA
+================================================== */
+
+.artist-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  min-height: 100px;
+  padding: 22px 34px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(45, 45, 45, 0.95),
+      #121212
+    );
+}
+
+.artist-play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+
+  border: none;
+  border-radius: 50%;
+  background-color: #1ed760;
+  color: #000;
+
+  font-size: 29px;
+  cursor: pointer;
+
+  transition:
+    transform 150ms ease,
+    background-color 150ms ease;
+}
+
+.artist-play-button i {
+  margin-left: 3px;
+}
+
+.artist-play-button:hover {
+  transform: scale(1.06);
+  background-color: #3be477;
+}
+
+.following-button {
+  min-width: 78px;
+  padding: 8px 16px;
+
+  border: 1px solid #888;
+  border-radius: 4px;
+  background-color: transparent;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.following-button:hover {
+  border-color: white;
+  transform: scale(1.03);
+}
+
+.more-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px;
+  border: none;
+  background-color: transparent;
+  color: #b3b3b3;
+
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.more-button:hover {
+  color: white;
+}
+
+/* ==================================================
+   CONTENUTO INFERIORE
+================================================== */
+
+.artist-lower-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 0.9fr);
+  gap: 60px;
+
+  width: 100%;
+  padding: 4px 34px 60px;
+  background-color: #121212;
+}
+
+.artist-lower-content h2 {
+  margin: 0 0 18px;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* ==================================================
+   BRANI POPOLARI
+================================================== */
+
+.popular-songs {
+  min-width: 0;
+}
+
+#popularTracks {
+  width: 100%;
+}
+
+.track-row {
+  display: grid;
+  grid-template-columns:
+    28px
+    44px
+    minmax(160px, 1fr)
+    90px
+    56px;
+
+  align-items: center;
+  gap: 14px;
+
+  width: 100%;
+  min-height: 58px;
+  padding: 7px 10px;
+
+  border-radius: 5px;
+  color: #b3b3b3;
+  cursor: pointer;
+
+  transition: background-color 150ms ease;
+}
+
+.track-row:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.track-position {
+  color: #b3b3b3;
+  font-size: 16px;
+  text-align: center;
+}
+
+.track-cover {
+  width: 42px;
+  height: 42px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.track-title {
+  min-width: 0;
+  overflow: hidden;
+
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-rank,
+.track-duration {
+  color: #b3b3b3;
+  font-size: 14px;
+}
+
+.track-rank {
+  text-align: right;
+}
+
+.track-duration {
+  text-align: right;
+}
+
+.show-more-button {
+  margin: 14px 0 0 10px;
+  padding: 5px 0;
+
+  border: none;
+  background: transparent;
+  color: #b3b3b3;
+
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.show-more-button:hover {
+  color: white;
+}
+
+/* ==================================================
+   BRANI CHE TI PIACCIONO
+================================================== */
+
+.liked-songs {
+  min-width: 0;
+}
+
+.liked-artist-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 90px;
+}
+
+.liked-image-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.liked-image-container img,
+#likedArtistImage {
+  display: block;
+  width: 82px;
+  height: 82px;
+
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.liked-heart {
+  position: absolute;
+  right: -7px;
+  bottom: 3px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  border: 3px solid #121212;
+  border-radius: 50%;
+  background-color: #1ed760;
+  color: white;
+
+  font-size: 11px;
+}
+
+.liked-artist-information {
+  min-width: 0;
+}
+
+.liked-artist-information strong,
+#likedSongsText {
+  display: block;
+  color: white;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.liked-artist-information p,
+#likedArtistName {
+  margin: 7px 0 0;
+  color: #b3b3b3;
+  font-size: 14px;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media screen and (max-width: 1100px) {
+  .artist-lower-content {
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 30px;
+  }
+
+  .track-row {
+    grid-template-columns:
+      28px
+      44px
+      minmax(130px, 1fr)
+      56px;
+  }
+
+  .track-rank {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .artist-hero {
+    min-height: 300px;
+    padding: 28px 22px;
+  }
+
+  #artistName {
+    font-size: clamp(46px, 11vw, 70px);
+    letter-spacing: -2px;
+  }
+
+  .artist-actions {
+    padding: 20px 22px;
+  }
+
+  .artist-lower-content {
+    grid-template-columns: 1fr;
+    padding: 5px 22px 50px;
+  }
+
+  .liked-songs {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .main-content.artist-page {
+    border-radius: 0;
+  }
+
+  .artist-hero {
+    min-height: 270px;
+  }
+
+  #artistName {
+    font-size: 44px;
+  }
+
+  .track-row {
+    grid-template-columns:
+      24px
+      42px
+      minmax(0, 1fr)
+      48px;
+
+    gap: 9px;
+    padding-inline: 4px;
+  }
+
+  .track-duration {
+    font-size: 13px;
+  }
+}
