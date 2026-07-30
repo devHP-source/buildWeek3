@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body>
-   
     <header class="top-navbar">
       <nav class="navbar-content">
         <div class="navbar-left">
@@ -31,7 +30,8 @@
             <input
               type="search"
               id="search-input"
-              placeholder="Cosa vuoi ascoltare?"/>
+              placeholder="Cosa vuoi ascoltare?"
+            />
           </div>
         </div>
 
@@ -45,13 +45,23 @@
         </div>
       </nav>
     </header>
+
     <div class="app-layout">
-      <aside class="sidebar">
+      <aside id="sidebar" class="sidebar">
         <div class="sidebar-header">
-          <h2 class="sidebar-title">
-            <i class="bi bi-collection"></i>
-            La tua libreria
-          </h2>
+          <div class="sidebar-title">
+            <button
+              id="sidebar-toggle"
+              class="sidebar-toggle"
+              aria-label="Riduci o espandi la libreria"
+            >
+              <span class="sidebar-toggle-icon">
+                <span class="sidebar-toggle-arrow">‹</span>
+              </span>
+            </button>
+
+            <h2>La tua libreria</h2>
+          </div>
 
           <button class="sidebar-add-button">
             <i class="bi bi-plus-lg"></i>
@@ -91,6 +101,7 @@
             <div class="library-placeholder">
               <i class="bi bi-person-fill"></i>
             </div>
+
             <div class="library-item-info">
               <h3>Artisti seguiti</h3>
               <p>Artisti</p>
@@ -118,7 +129,8 @@
         <img
           src="https://placehold.co/56x56"
           alt="Copertina brano"
-          class="player-cover"/>
+          class="player-cover"
+        />
 
         <div class="player-song-info">
           <h4>Nome brano</h4>
