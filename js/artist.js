@@ -173,6 +173,7 @@ function formatDuration(totalSeconds) {
 function showArtistContent() {
   loadingMessage.classList.add("d-none");
   errorMessage.textContent = "";
+  errorMessage.classList.add("d-none");
   artistContent.classList.remove("d-none");
 }
 
@@ -180,4 +181,5 @@ function showError(message) {
   loadingMessage.classList.add("d-none");
   artistContent.classList.add("d-none");
   errorMessage.textContent = message;
+  errorMessage.classList.remove("d-none");
 }
