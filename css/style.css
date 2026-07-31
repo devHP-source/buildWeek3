@@ -197,6 +197,28 @@ input {
   font-size: 16px;
   font-weight: bold;
 }
+.sidebar-title h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+.sidebar-toggle {
+  background-color: transparent;
+  border: none;
+  color: var(--gray);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.sidebar-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-toggle-arrow {
+  font-size: 24px;
+}
 
 .sidebar-add-button,
 .sidebar-search-button,
