@@ -491,3 +491,9 @@
     font-size: 13px;
   }
 }
+/* Stato "già seguito" del pulsante Segui */
+
+.following-button.following {
+  border-color: var(--white);
+  color: var(--white);
+}

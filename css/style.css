@@ -519,3 +519,123 @@ input {
   background-color: var(--white);
   border-radius: 10px;
 }
+
+/* ===========================
+   HOMEPAGE - SEZIONI DINAMICHE
+=========================== */
+
+.home-section {
+  margin-bottom: 32px;
+}
+
+.home-section-title {
+  margin-bottom: 16px;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.home-section-empty,
+.home-message {
+  color: var(--gray);
+}
+
+/* Griglia di tessere compatte: 2 colonne su mobile, 3 da desktop */
+
+.home-tile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.home-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  overflow: hidden;
+
+  background-color: var(--card);
+  border-radius: 4px;
+
+  color: var(--white);
+  text-decoration: none;
+}
+
+.home-tile:hover {
+  background-color: #3a3a3a;
+}
+
+.home-tile-cover {
+  width: 56px;
+  height: 56px;
+
+  object-fit: cover;
+}
+
+.home-tile-title {
+  padding-right: 12px;
+
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Riga di card grandi, scorrevole in orizzontale su schermi stretti */
+
+.home-card-row {
+  display: flex;
+  gap: 16px;
+
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.home-card {
+  flex: 0 0 160px;
+
+  padding: 12px;
+
+  background-color: var(--gray-dark);
+  border-radius: 8px;
+
+  color: var(--white);
+  text-decoration: none;
+}
+
+.home-card:hover {
+  background-color: var(--card);
+}
+
+.home-card-cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.home-card-title {
+  margin-top: 12px;
+
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.home-card-artist {
+  margin-top: 4px;
+
+  color: var(--gray);
+  font-size: 13px;
+}
+
+@media (min-width: 576px) {
+  .home-tile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .home-tile-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

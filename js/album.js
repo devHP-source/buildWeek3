@@ -7,11 +7,26 @@ const titleElement = document.querySelector('.album-title')
 const albumArtist = document.querySelector('#album-artist')
 const tracklistContainer = document.getElementById('tracklist-container');
 const artistAvatar = document.getElementById('artist-avatar')
+const mainContent = document.getElementById('main-content')
+const albumYear = document.getElementById('album-year')
+const albumTrackCount = document.getElementById('album-track-count')
+const albumDuration = document.getElementById('album-duration')
+
+
+const showAlbumError = (message) => { // se il caricamente fallisce, mostra
+    mainContent.innerHTML = `
+        <div class="container text-center py-5">
+            <p class="fs-5">${message}</p>
+            <a href="../homepage/index.html" class="text-white">Torna alla homepage</a>
+        </div>` // questo messaggio
+}
+
 
 // FETCH PRINCIPALE
 const loadAlbumPage = async () => {
     if (!albumId) {
         console.log(`Nell'indirizzo della pagina manca l'ID dell'album.`)
+        showAlbumError(`Nell'indirizzo della pagina manca l'ID dell'album.`)
         return
     }
 
@@ -20,17 +35,27 @@ const loadAlbumPage = async () => {
 
         if (!result.ok) {
             console.log(`Errore album: ${result.status} ${result.statusText}`)
+            showAlbumError(`Non è stato possibile caricare l'album.`)
             return
         }
 
         const data = await result.json()
-        console.log(data)
+
+        // L'API risponde 200 anche quando l'album non esiste:
+        // in quel caso l'errore arriva dentro il corpo della risposta.
+        if (data.error) {
+            console.log(`Errore album: ${data.error.message}`)
+            showAlbumError(`Questo album non esiste.`)
+            return
+        }
+
         displayAlbumHeader(data)
         displayTracklist(data.tracks.data)
 
     }
     catch (error) {
         console.log(error)
+        showAlbumError(`Non è stato possibile caricare l'album.`)
     }
 }
 
@@ -47,6 +72,10 @@ const displayAlbumHeader = (album) => {
     artistAvatar.src = album.artist.picture_small
     artistAvatar.alt = album.artist.name
 
+    albumYear.innerText = (album.release_date || '').slice(0, 4)     // release_date arriva come "2001-03-07" ma ci serve solo l'anno
+    albumTrackCount.innerText = `${album.nb_tracks} ${album.nb_tracks === 1 ? 'brano' : 'brani'}`
+    albumDuration.innerText = formatAlbumDuration(album.duration)
+
     document.title = `${album.title} | Spotify Clone`
 }
 
@@ -57,6 +86,14 @@ const formatDuration = (totalSeconds) => {
     const seconds = totalSeconds % 60
                                                                /* padStart() */
     return `${minutes}:${seconds.toString().padStart(2, '0')}` // https://www.w3schools.com/Jsref/jsref_string_padstart.asp
+}
+
+
+const formatAlbumDuration = (totalSeconds) => { // Durata totale dell'album, in questo formato "53 min 20 sec"
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
+
+    return `${minutes} min ${seconds} sec.`
 }
 
 

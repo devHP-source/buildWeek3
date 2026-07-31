@@ -13,8 +13,20 @@ const popularTracks = document.getElementById("popularTracks");
 const likedArtistImage = document.getElementById("likedArtistImage");
 const likedArtistName = document.getElementById("likedArtistName");
 const artistPlayButton = document.getElementById("artistPlayButton");
+const followArtistButton = document.getElementById("followArtistButton");
+const showMoreTracks = document.getElementById("showMoreTracks");
+
+const playerCover = document.getElementById("playerCover");
+const playerSongTitle = document.getElementById("playerSongTitle");
+const playerArtistName = document.getElementById("playerArtistName");
+const totalTime = document.getElementById("totalTime");
+
+// Ne scarichiamo 10 ma ne mostriamo 5: "Visualizza altro" rivela gli altri
+// senza dover rifare una richiesta.
+const TRACKS_PREVIEW = 5;
 
 let currentTracks = [];
+let tracksExpanded = false;
 
 document.addEventListener("DOMContentLoaded", initArtistPage);
 
@@ -63,7 +75,7 @@ async function fetchArtist(artistId) {
 
 async function fetchArtistTopTracks(artistId) {
   const response = await fetch(
-    `${API_BASE_URL}/artist/${artistId}/top?limit=5`
+    `${API_BASE_URL}/artist/${artistId}/top?limit=10`
   );
 
   if (!response.ok) {
@@ -104,40 +116,66 @@ function renderTracks(tracks) {
     popularTracks.innerHTML =
       "<p>Nessun brano disponibile per questo artista.</p>";
 
+    showMoreTracks.classList.add("d-none");
+
     return;
   }
 
-  tracks.forEach((track, index) => {
+  const visibleTracks = tracksExpanded
+    ? tracks
+    : tracks.slice(0, TRACKS_PREVIEW);
+
+  visibleTracks.forEach((track, index) => {
     const trackRow = createTrackRow(track, index);
     popularTracks.appendChild(trackRow);
   });
+
+  // Se non c'è nulla da rivelare nascondiamo il pulsante,
+  // invece di lasciarlo visibile e inerte.
+  if (tracks.length <= TRACKS_PREVIEW) {
+    showMoreTracks.classList.add("d-none");
+
+    return;
+  }
+
+  showMoreTracks.classList.remove("d-none");
+
+  showMoreTracks.textContent = tracksExpanded
+    ? "Visualizza meno"
+    : "Visualizza altro";
 }
 
 function createTrackRow(track, index) {
   const row = document.createElement("div");
   row.classList.add("track-row");
 
+  /*
+    Costruiamo prima la struttura vuota e poi inseriamo i dati con
+    textContent / proprietà, siccome molti titoli Deezer contengono virgolette
+    (es: 'The World Is Not Enough (da "The World Is Not Enough")')
+    e, inte mostra dentro l'HTML e spezzerebbero gli attributi del tag
+  */
   row.innerHTML = `
-    <span class="track-position">${index + 1}</span>
+    <span class="track-position"></span>
 
-    <img
-      class="track-cover"
-      src="${track.album.cover_small}"
-      alt="Copertina di ${track.title}"
-    >
+    <img class="track-cover" alt="">
 
-    <span class="track-title">
-      ${track.title}
-    </span>
+    <span class="track-title"></span>
 
-    <span class="track-rank">
-      ${formatNumber(track.rank)}
-    </span>
+    <span class="track-rank"></span>
 
-    <span class="track-duration">
-      ${formatDuration(track.duration)}
-    </span>
+    <span class="track-duration"></span>
   `;
+
+  row.querySelector(".track-position").textContent = index + 1;
+
+  const cover = row.querySelector(".track-cover");
+  cover.src = track.album.cover_small;
+  cover.alt = `Copertina di ${track.title}`;
+
+  row.querySelector(".track-title").textContent = track.title;
+  row.querySelector(".track-rank").textContent = formatNumber(track.rank);
+  row.querySelector(".track-duration").textContent = formatDuration(track.duration);
 
   row.addEventListener("click", () => {
     selectTrack(track);
@@ -146,14 +184,39 @@ function createTrackRow(track, index) {
   return row;
 }
 
+// Aggiorna solo la grafica del player in basso: non c'è riproduzione audio.
 function selectTrack(track) {
-  console.log("Brano selezionato:", track);
+  playerCover.src = track.album.cover_small;
+  playerCover.alt = `Copertina di ${track.title}`;
 
-  /*
-    Qui, successivamente, collegheremo il brano
-    al player presente nella parte inferiore.
-  */
+  playerSongTitle.textContent = track.title;
+  playerArtistName.textContent = track.artist.name;
+
+  totalTime.textContent = formatDuration(track.duration);
 }
+
+
+artistPlayButton.addEventListener("click", () => {
+  if (!currentTracks.length) {
+    return;
+  }
+
+  selectTrack(currentTracks[0]);
+});
+
+
+followArtistButton.addEventListener("click", () => {
+  const isFollowing = followArtistButton.classList.toggle("following");
+
+  followArtistButton.textContent = isFollowing ? "Segui già" : "Segui";
+});
+
+
+showMoreTracks.addEventListener("click", () => {
+  tracksExpanded = !tracksExpanded;
+
+  renderTracks(currentTracks);
+});
 
 function formatNumber(number) {
   if (typeof number !== "number") {
