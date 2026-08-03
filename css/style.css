@@ -1,7 +1,3 @@
-/* 
-   COLORI PRINCIPALI
- */
-
 :root {
   --black: #000000;
   --dark: #121212;
@@ -12,9 +8,7 @@
   --green: #1db954;
 }
 
-/* 
-   IMPOSTAZIONI GENERALI
- */
+/* IMPOSTAZIONI GENERALI */
 
 * {
   margin: 0;
@@ -35,10 +29,60 @@ input {
 }
 
 /*  NAVBAR */
-
 .top-navbar {
   background-color: var(--black);
   padding: 10px 20px;
+}
+
+/* Hamburger: compare solo quando i link della navbar vengono nascosti */
+.navbar-menu-button {
+  display: none;
+  border-color: #3a3a3a;
+}
+
+.navbar-menu-button:focus {
+  box-shadow: none;
+  border-color: var(--gray);
+}
+
+.navbar-menu {
+  padding: 8px 0 4px;
+}
+
+.navbar-menu-heading {
+  margin: 12px 0 4px;
+  padding: 0 4px;
+
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.navbar-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 4px;
+
+  color: var(--gray);
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-menu-link:hover {
+  color: var(--white);
+}
+
+.navbar-menu-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px 4px 0;
 }
 
 .navbar-content {
@@ -106,12 +150,49 @@ input {
 }
 
 .search-container input {
-  width: 100%;
+  /* flex:1 imposta flex-basis:0%, che governa la larghezza: un width qui
+     sarebbe ignorato, quindi non lo mettiamo */
+  flex: 1;
+  min-width: 0;
 
   border: none;
   outline: none;
 
   background-color: transparent;
+  color: var(--white);
+}
+
+
+.search-container:focus-within {
+  outline: 2px solid var(--white);
+}
+
+.search-container > i,
+.search-divider,
+.search-browse-button {
+  flex-shrink: 0;
+}
+
+.search-divider {
+  width: 1px;
+  height: 24px;
+  background-color: #3a3a3a;
+}
+
+.search-browse-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: var(--gray);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.search-browse-button:hover {
   color: var(--white);
 }
 
@@ -123,15 +204,28 @@ input {
   gap: 15px;
 }
 
-.navbar-link {
+/* Pulsanti tondi con sola icona nella navbar (novita, attivita di ascolto) */
+.navbar-icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
   color: var(--gray);
-  font-size: 14px;
-  font-weight: bold;
-  text-decoration: none;
+  font-size: 18px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.navbar-link:hover {
+.navbar-icon-button:hover {
   color: var(--white);
+  background-color: var(--card);
 }
 
 .signup-button,
@@ -159,8 +253,77 @@ input {
   border-radius: 30px;
 }
 
-/* STRUTTURA PAGINA*/
+/* MENU ACCOUNT (tendina sotto il pulsante Accedi) */
+.dropdown-menu.account-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: auto;
+}
 
+.account-menu {
+  display: block;
+  min-width: 240px;
+
+  padding: 8px;
+  margin-top: 10px;
+
+  background-color: var(--card);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  pointer-events: none;
+
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0.18s;
+}
+
+.account-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.account-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px;
+  border-radius: 4px;
+
+  color: var(--white);
+  font-size: 14px;
+  font-weight: normal;
+  text-decoration: none;
+
+  transition: background-color 0.15s ease;
+}
+
+.account-menu-item:hover {
+  background-color: #3a3a3a;
+  color: var(--white);
+}
+
+.account-menu-item i {
+  font-size: 17px;
+}
+
+.account-menu-divider {
+  height: 1px;
+  margin: 8px 4px;
+
+  background-color: #3a3a3a;
+}
+
+/* STRUTTURA PAGINA*/
 .app-layout {
   display: flex;
   gap: 8px;
@@ -170,7 +333,6 @@ input {
 }
 
 /* SIDEBAR */
-
 .sidebar {
   width: 300px;
   padding: 15px 8px;
@@ -350,33 +512,27 @@ input {
 .sidebar.collapsed .sidebar-toggle-arrow {
   transform: rotate(180deg);
 }
-/* CONTENUTO PRINCIPALE*/
 
+/* CONTENUTO PRINCIPALE*/
 .main-content {
   flex-grow: 1;
-
+  min-width: 0;
   padding: 24px;
-
   background-color: var(--gray-dark);
   border-radius: 8px;
 }
 
-/*PLAYER IN BASSO*/
-
+/* PLAYER IN BASSO */
 .player-bar {
   position: fixed;
   bottom: 0;
   left: 0;
-
   width: 100%;
   min-height: 90px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 12px 20px;
-
   background-color: var(--black);
   z-index: 1000;
 }
@@ -388,8 +544,7 @@ input {
   align-items: center;
 }
 
-/*  PLAYER SINISTRA*/
-
+/*  PLAYER SINISTRA */
 .player-left {
   width: 30%;
   gap: 12px;
@@ -398,21 +553,18 @@ input {
 .player-cover {
   width: 56px;
   height: 56px;
-
   border-radius: 4px;
   object-fit: cover;
 }
 
 .player-song-info h4 {
   color: var(--white);
-
   font-size: 14px;
   font-weight: normal;
 }
 
 .player-song-info p {
   margin-top: 4px;
-
   color: var(--gray);
   font-size: 12px;
 }
@@ -460,21 +612,17 @@ input {
 .play-button {
   width: 34px;
   height: 34px;
-
   background-color: var(--white);
   color: var(--black);
-
   border-radius: 50%;
   font-size: 20px;
 }
 
 .player-progress {
   width: 100%;
-
   display: flex;
   align-items: center;
   gap: 8px;
-
   color: var(--gray);
   font-size: 11px;
 }
@@ -482,7 +630,6 @@ input {
 .progress-bar {
   flex-grow: 1;
   height: 4px;
-
   background-color: #4d4d4d;
   border-radius: 10px;
 }
@@ -490,16 +637,13 @@ input {
 .progress {
   width: 30%;
   height: 100%;
-
   background-color: var(--white);
   border-radius: 10px;
 }
 
-/*  PLAYER DESTRA*/
-
+/*  PLAYER DESTRA */
 .player-right {
   width: 30%;
-
   justify-content: flex-end;
   gap: 12px;
 }
@@ -507,7 +651,6 @@ input {
 .volume-bar {
   width: 100px;
   height: 4px;
-
   background-color: #4d4d4d;
   border-radius: 10px;
 }
@@ -515,14 +658,13 @@ input {
 .volume-progress {
   width: 70%;
   height: 100%;
-
   background-color: var(--white);
   border-radius: 10px;
 }
 
-/* ===========================
+/*
    HOMEPAGE - SEZIONI DINAMICHE
-=========================== */
+*/
 
 .home-section {
   margin-bottom: 32px;
@@ -541,7 +683,6 @@ input {
 }
 
 /* Griglia di tessere compatte: 2 colonne su mobile, 3 da desktop */
-
 .home-tile-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -580,30 +721,146 @@ input {
   font-size: 14px;
 }
 
-/* Riga di card grandi, scorrevole in orizzontale su schermi stretti */
+/* Banner dell'album in evidenza in cima alla homepage */
+.home-hero {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding: 24px;
+  background-color: var(--card);
+  border-radius: 8px;
+}
 
+.home-hero-cover-link {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.home-hero-cover {
+  width: 180px;
+  height: 180px;
+
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.home-hero-info {
+  min-width: 0;
+}
+
+.home-hero-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.home-hero-title {
+  margin: 8px 0;
+
+  font-size: 48px;
+  line-height: 1.1;
+  word-break: break-word;
+}
+
+.home-hero-artist {
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-hero-artist:hover {
+  text-decoration: underline;
+}
+
+.home-hero-meta {
+  margin-top: 4px;
+
+  color: var(--gray);
+  font-size: 14px;
+}
+
+.home-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+.home-hero-play,
+.home-hero-save {
+  padding: 10px 32px;
+
+  border-radius: 30px;
+
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.home-hero-play {
+  background-color: var(--green);
+  border: none;
+  color: var(--black);
+}
+
+.home-hero-save {
+  background-color: transparent;
+  border: 1px solid var(--gray);
+  color: var(--white);
+}
+
+.home-hero-save:hover {
+  border-color: var(--white);
+}
+
+/* MEDIA QUERY */
+@media (max-width: 767px) {
+  .home-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-hero-title {
+    font-size: 32px;
+  }
+}
+
+/* Riga di card grandi, scorrevole in orizzontale su schermi stretti */
 .home-card-row {
   display: flex;
   gap: 16px;
-
   overflow-x: auto;
   padding-bottom: 8px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Edge / IE meno recenti */
+}
+
+.home-card-row::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
 }
 
 .home-card {
   flex: 0 0 160px;
-
   padding: 12px;
-
   background-color: var(--gray-dark);
   border-radius: 8px;
-
   color: var(--white);
   text-decoration: none;
 }
 
 .home-card:hover {
   background-color: var(--card);
+}
+
+.home-card-link {
+  display: block;
+
+  color: var(--white);
+  text-decoration: none;
 }
 
 .home-card-cover {
@@ -622,10 +879,17 @@ input {
 }
 
 .home-card-artist {
+  display: block;
   margin-top: 4px;
 
   color: var(--gray);
   font-size: 13px;
+  text-decoration: none;
+}
+
+a.home-card-artist:hover {
+  color: var(--white);
+  text-decoration: underline;
 }
 
 @media (min-width: 576px) {
@@ -637,5 +901,71 @@ input {
 @media (min-width: 992px) {
   .home-tile-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/*
+   SCHERMI STRETTI - MEDIA QUERY
+*/
+
+@media (max-width: 991px) {
+  .sidebar {
+    display: none;
+  }
+
+  .navbar-center {
+    flex: 1;
+    min-width: 0;
+    padding: 0 12px;
+  }
+
+  .search-container {
+    width: 100%;
+    max-width: 450px;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-right {
+    display: none;
+  }
+
+  .navbar-menu-button {
+    display: block;
+  }
+
+  .player-right {
+    display: none;
+  }
+
+  .player-left {
+    width: 45%;
+    min-width: 0;
+  }
+
+  .player-center {
+    width: 55%;
+  }
+
+  .player-song-info {
+    min-width: 0;
+  }
+
+  .player-song-info h4,
+  .player-song-info p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-menu.collapse.show {
+    display: none;
   }
 }

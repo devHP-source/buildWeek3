@@ -1,7 +1,5 @@
 const params = new URLSearchParams(window.location.search)
 const albumId = params.get('id')
-const endpointAlbum = 'https://striveschool-api.herokuapp.com/api/deezer/album/'
-//const albumId = 256250622 //PROVA PER TROVARE DATI REALI
 const albumCover = document.getElementById('album-cover')
 const titleElement = document.querySelector('.album-title')
 const albumArtist = document.querySelector('#album-artist')
@@ -30,33 +28,16 @@ const loadAlbumPage = async () => {
         return
     }
 
-    try {
-        const result = await fetch(`${endpointAlbum}${albumId}`)
+    // getAlbum() sta in utility.js e registra in console il motivo preciso
+    const album = await getAlbum(albumId)
 
-        if (!result.ok) {
-            console.log(`Errore album: ${result.status} ${result.statusText}`)
-            showAlbumError(`Non è stato possibile caricare l'album.`)
-            return
-        }
-
-        const data = await result.json()
-
-        // L'API risponde 200 anche quando l'album non esiste:
-        // in quel caso l'errore arriva dentro il corpo della risposta.
-        if (data.error) {
-            console.log(`Errore album: ${data.error.message}`)
-            showAlbumError(`Questo album non esiste.`)
-            return
-        }
-
-        displayAlbumHeader(data)
-        displayTracklist(data.tracks.data)
-
-    }
-    catch (error) {
-        console.log(error)
+    if (!album) {
         showAlbumError(`Non è stato possibile caricare l'album.`)
+        return
     }
+
+    displayAlbumHeader(album)
+    displayTracklist(album.tracks.data)
 }
 
 
@@ -80,30 +61,12 @@ const displayAlbumHeader = (album) => {
 }
 
 
-// Deezer restituisce la durata in secondi: la mostriamo come m:ss
-const formatDuration = (totalSeconds) => {
-    const minutes = Math.floor(totalSeconds / 60)
-    const seconds = totalSeconds % 60
-                                                               /* padStart() */
-    return `${minutes}:${seconds.toString().padStart(2, '0')}` // https://www.w3schools.com/Jsref/jsref_string_padstart.asp
-}
-
-
+// formatDuration() e formatNumber() arrivano da utility.js
 const formatAlbumDuration = (totalSeconds) => { // Durata totale dell'album, in questo formato "53 min 20 sec"
     const minutes = Math.floor(totalSeconds / 60)
     const seconds = totalSeconds % 60
 
     return `${minutes} min ${seconds} sec.`
-}
-
-
-// Separatore delle migliaia per il numero di riproduzioni
-const formatNumber = (number) => {
-    if (typeof number !== 'number') {
-        return '0'
-    }
-
-    return number.toLocaleString('it-IT')
 }
 
 
@@ -113,7 +76,7 @@ const displayTracklist = (tracks) => {
 
     tracks.forEach((track, index) => {
         const row = document.createElement('div')
-        row.classList.add('row','align-items-center','text-muted','small','py-2','border-bottom','border-dark')
+        row.classList.add('row','align-items-center','text-dimmed','small','py-2','border-bottom','border-dark')
 
         const colIndex = document.createElement('div')
         colIndex.classList.add('col-auto','d-none','d-md-block','track-number')
@@ -127,7 +90,7 @@ const displayTracklist = (tracks) => {
         titleDiv.innerText = track.title
 
         const artistDiv = document.createElement('div')
-        artistDiv.classList.add('text-muted')
+        artistDiv.classList.add('text-dimmed')
         artistDiv.innerText = track.artist.name
 
         colInfo.appendChild(titleDiv)
@@ -149,7 +112,5 @@ const displayTracklist = (tracks) => {
 
     })
 }
-
-
 
 loadAlbumPage()

@@ -1,7 +1,3 @@
-/* ==================================================
-   PAGINA ARTISTA
-================================================== */
-
 * {
   box-sizing: border-box;
 }
@@ -10,7 +6,7 @@
 .main-content.artist-page {
   min-width: 0;
   height: calc(100vh - 160px);
-  padding: 0 !important;
+  padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #121212;
@@ -35,9 +31,7 @@
   background-color: #777;
 }
 
-/* ==================================================
-   CARICAMENTO ED ERRORI
-================================================== */
+/* CARICAMENTO ED ERRORI */
 
 .page-message {
   display: flex;
@@ -60,9 +54,7 @@
   min-height: 100%;
 }
 
-/* ==================================================
-   HERO ARTISTA
-================================================== */
+/* HERO ARTISTA */
 
 .artist-hero {
   position: relative;
@@ -142,9 +134,7 @@
   font-weight: 500;
 }
 
-/* ==================================================
-   AZIONI ARTISTA
-================================================== */
+/* AZIONI ARTISTA */
 
 .artist-actions {
   display: flex;
@@ -229,10 +219,6 @@
   color: white;
 }
 
-/* ==================================================
-   CONTENUTO INFERIORE
-================================================== */
-
 .artist-lower-content {
   display: grid;
   grid-template-columns: minmax(0, 1.8fr) minmax(280px, 0.9fr);
@@ -250,9 +236,7 @@
   font-weight: 700;
 }
 
-/* ==================================================
-   BRANI POPOLARI
-================================================== */
+/* BRANI POPOLARI */
 
 .popular-songs {
   min-width: 0;
@@ -346,10 +330,6 @@
   color: white;
 }
 
-/* ==================================================
-   BRANI CHE TI PIACCIONO
-================================================== */
-
 .liked-songs {
   min-width: 0;
 }
@@ -415,10 +395,7 @@
   font-size: 14px;
 }
 
-/* ==================================================
-   RESPONSIVE
-================================================== */
-
+/* MEDIA QUERY */
 @media screen and (max-width: 1100px) {
   .artist-lower-content {
     grid-template-columns: minmax(0, 1fr) 270px;
@@ -491,7 +468,6 @@
     font-size: 13px;
   }
 }
-/* Stato "già seguito" del pulsante Segui */
 
 .following-button.following {
   border-color: var(--white);

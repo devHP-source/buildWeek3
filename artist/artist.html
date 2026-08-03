@@ -1,36 +1,19 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <link rel="icon" type="image/svg+xml" href="../assets/img/Spotify_logo-favicon.svg" />
-
   <title>Artista | Spotify Clone</title>
-
-
-
-
-
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
-
-  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-
-  <!-- CSS generale -->
   <link rel="stylesheet" href="../css/style.css" />
-
-  <!-- CSS pagina artista -->
   <link rel="stylesheet" href="../css/artist.css" />
 </head>
 
 <body>
-  <!-- Navigazione superiore -->
-  <header class="top-navbar">
+  <header class="top-navbar" data-bs-theme="dark">  <!-- Navigazione superiore -->
     <nav class="navbar-content" aria-label="Navigazione principale">
       <div class="navbar-left">
         <a href="../homepage/index.html" class="spotify-logo" aria-label="Vai alla homepage">
@@ -48,33 +31,92 @@
 
           <input type="search" id="search-input" name="search" placeholder="Cosa vuoi ascoltare?"
             aria-label="Cerca musica" autocomplete="off" />
+
+          <span class="search-divider"></span>
+
+          <a href="../search/search.html" class="search-browse-button" data-bs-toggle="tooltip"
+            data-bs-placement="bottom" title="Sfoglia tutto" aria-label="Sfoglia tutto">
+            <i class="bi bi-archive" aria-hidden="true"></i>
+          </a>
         </div>
       </div>
 
       <div class="navbar-right">
-        <a href="#" class="navbar-link">Premium</a>
-        <a href="#" class="navbar-link">Assistenza</a>
-        <a href="#" class="navbar-link">Scarica</a>
-
-        <button class="signup-button" type="button">
-          Iscriviti
+        <button class="navbar-icon-button" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Novità" aria-label="Novità">
+          <i class="bi bi-bell" aria-hidden="true"></i>
         </button>
 
-        <button class="login-button" type="button">
-          Accedi
+        <button class="navbar-icon-button" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Attività di ascolto" aria-label="Attività di ascolto">
+          <i class="bi bi-people" aria-hidden="true"></i>
         </button>
+
+        <div class="dropdown">
+          <button class="login-button" type="button" id="account-menu-button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false"> Accedi
+          </button>
+
+          <div class="dropdown-menu dropdown-menu-end account-menu" aria-labelledby="account-menu-button">
+            <a href="#" class="account-menu-item">
+              <i class="bi bi-star" aria-hidden="true"></i> Premium
+            </a>
+
+            <a href="#" class="account-menu-item">
+              <i class="bi bi-question-circle" aria-hidden="true"></i> Assistenza
+            </a>
+
+            <a href="#" class="account-menu-item">
+              <i class="bi bi-download" aria-hidden="true"></i> Scarica
+            </a>
+
+            <div class="account-menu-divider"></div>
+
+            <a href="#" class="account-menu-item">
+              <i class="bi bi-person-plus" aria-hidden="true"></i> Iscriviti
+            </a>
+          </div>
+        </div>
       </div>
+
+      <button class="navbar-toggler navbar-menu-button" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false"
+        aria-label="Apri il menu di navigazione">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </nav>
+
+    <div class="collapse navbar-menu" id="navbar-menu">
+      <a href="#" class="navbar-menu-link">Premium</a>
+      <a href="#" class="navbar-menu-link">Assistenza</a>
+      <a href="#" class="navbar-menu-link">Scarica</a>
+
+      <div class="navbar-menu-actions">
+        <button class="signup-button" type="button">Iscriviti</button>
+        <button class="login-button" type="button">Accedi</button>
+      </div>
+
+      <p class="navbar-menu-heading">La tua libreria</p>
+
+      <a href="#" class="navbar-menu-link">
+        <i class="bi bi-music-note-beamed" aria-hidden="true"></i> Brani che ti piacciono
+      </a>
+
+      <a href="#" class="navbar-menu-link">
+        <i class="bi bi-person-fill" aria-hidden="true"></i> Artisti seguiti
+      </a>
+
+      <a href="#" class="navbar-menu-link">
+        <i class="bi bi-disc-fill" aria-hidden="true"></i> Album salvati
+      </a>
+    </div>
   </header>
 
-  <!-- Layout principale -->
-  <div class="app-layout">
-    <!-- Libreria laterale -->
-    <aside id="sidebar" class="sidebar" aria-label="La tua libreria">
+
+  <div class="app-layout"> <!-- Layout principale -->
+
+    <aside id="sidebar" class="sidebar" aria-label="La tua libreria"> <!-- Libreria laterale -->
+
       <div class="sidebar-header">
         <div class="sidebar-title">
-          <button id="sidebar-toggle" class="sidebar-toggle" type="button"
-            aria-label="Riduci o espandi la libreria">
+          <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Riduci o espandi la libreria">
             <span class="sidebar-toggle-icon">
               <span class="sidebar-toggle-arrow">&lsaquo;</span>
             </span>
@@ -108,8 +150,7 @@
         </button>
 
         <button class="sidebar-order-button" type="button">
-          Recenti
-          <i class="bi bi-list-ul" aria-hidden="true"></i>
+          Recenti <i class="bi bi-list-ul" aria-hidden="true"></i>
         </button>
       </div>
 
@@ -147,37 +188,35 @@
           </div>
         </article>
       </div>
+
     </aside>
 
-    <!-- Contenuto dinamico della pagina artista -->
-    <main id="main-content" class="main-content artist-page">
-      <!-- Messaggio mostrato durante la fetch -->
-      <div id="loadingMessage" class="page-message">
+
+    <main id="main-content" class="main-content artist-page"> <!-- Contenuto dinamico della pagina artista -->
+
+      <div id="loadingMessage" class="page-message"> <!-- Messaggio mostrato durante la fetch -->
         <div class="spinner-border text-light" role="status">
-          <span class="visually-hidden">
-            Caricamento...
-          </span>
+          <span class="visually-hidden"> Caricamento...</span>
         </div>
 
         <p>Caricamento artista...</p>
       </div>
 
-      <!-- Messaggio di errore -->
-      <div id="errorMessage" class="page-message error-message d-none" role="alert"></div>
+      <div id="errorMessage" class="page-message error-message d-none" role="alert">
+        <!-- Messaggio di errore -->
+      </div>
 
-      <!-- Contenuto dell'artista -->
-      <div id="artistContent" class="artist-content d-none">
-        <!-- Hero dell'artista -->
-        <section id="artistHero" class="artist-hero">
-          <div class="artist-hero-overlay"></div>
+
+      <div id="artistContent" class="artist-content d-none"> <!-- Contenuto dell'artista -->
+
+        <section id="artistHero" class="artist-hero"> <!-- Hero dell'artista -->
+          <div class="artist-hero-overlay">
+
+          </div>
 
           <div class="artist-information">
             <p class="verified-artist">
-              <span class="verified-icon">
-                <i class="bi bi-check-lg" aria-hidden="true"></i>
-              </span>
-
-              Artista verificato
+              <span class="verified-icon"><i class="bi bi-check-lg" aria-hidden="true"></i></span> Artista verificato
             </p>
 
             <h1 id="artistName">
@@ -337,8 +376,10 @@
   </footer>
 
   <!-- JavaScript della pagina artista -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="../js/sidebar.js"></script>
+  <script src="../js/navbar.js"></script>
+  <script src="../js/utility.js"></script>
   <script src="../js/artist.js"></script>
 </body>
-
 </html>

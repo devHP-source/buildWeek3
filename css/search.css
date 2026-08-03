@@ -1,0 +1,74 @@
+.browse-title {
+  margin-bottom: 20px;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.browse-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .browse-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .browse-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.category-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 104px;
+  padding: 16px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.category-card-title {
+  margin: 0;
+  color: var(--white);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+/*
+   COLORE DELLE CATEGORIE
+   tramite search.js applicheremo
+   la classe corrispondente scorrendole in ordine
+*/
+
+.category-color-1 { background-color: #e13300; }
+.category-color-2 { background-color: #1e3264; }
+.category-color-3 { background-color: #8400e7; }
+.category-color-4 { background-color: #148a08; }
+.category-color-5 { background-color: #e8115b; }
+.category-color-6 { background-color: #006450; }
+.category-color-7 { background-color: #bc5900; }
+.category-color-8 { background-color: #503750; }
+.category-color-9 { background-color: #b02897; }
+.category-color-10 { background-color: #0d73ec; }
+.category-color-11 { background-color: #dc148c; }
+.category-color-12 { background-color: #a56752; }
+.category-color-13 { background-color: #7358ff; }
+.category-color-14 { background-color: #af2896; }
+.category-color-15 { background-color: #e91429; }
+.category-color-16 { background-color: #537aa1; }
+.category-color-17 { background-color: #27856a; }
+.category-color-18 { background-color: #777777; }
+.category-color-19 { background-color: #d84000; }
+.category-color-20 { background-color: #f037a5; }
+.category-color-21 { background-color: #ba5d07; }
+.category-color-22 { background-color: #056952; }
+.category-color-23 { background-color: #8d67ab; }
+.category-color-24 { background-color: #477d95; }

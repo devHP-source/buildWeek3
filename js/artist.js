@@ -1,6 +1,3 @@
-const API_BASE_URL =
-  "https://striveschool-api.herokuapp.com/api/deezer";
-
 const loadingMessage = document.getElementById("loadingMessage");
 const errorMessage = document.getElementById("errorMessage");
 const artistContent = document.getElementById("artistContent");
@@ -21,9 +18,12 @@ const playerSongTitle = document.getElementById("playerSongTitle");
 const playerArtistName = document.getElementById("playerArtistName");
 const totalTime = document.getElementById("totalTime");
 
-// Ne scarichiamo 10 ma ne mostriamo 5: "Visualizza altro" rivela gli altri
-// senza dover rifare una richiesta.
+/*
+Ne scarichiamo 10 ma ne mostriamo 5: "Visualizza altro" rivela gli altri
+senza dover rifare una richiesta.
+*/
 const TRACKS_PREVIEW = 5;
+const TRACKS_TO_FETCH = 10;
 
 let currentTracks = [];
 let tracksExpanded = false;
@@ -39,52 +39,27 @@ async function initArtistPage() {
     return;
   }
 
+  // getArtist() e getArtistTopTracks() stanno in utility.js e restituiscono null quando la richiesta fallisce, registrando il motivo in console.
+  const [artist, topTracks] = await Promise.all([
+    getArtist(artistId),
+    getArtistTopTracks(artistId, TRACKS_TO_FETCH)
+  ]);
+
+  if (!artist) {
+    showError("Non è stato possibile caricare l'artista.");
+    return;
+  }
+
+  currentTracks = topTracks && topTracks.data ? topTracks.data : [];
+
   try {
-    const [artist, tracksResponse] = await Promise.all([
-      fetchArtist(artistId),
-      fetchArtistTopTracks(artistId)
-    ]);
-
-    currentTracks = tracksResponse.data || [];
-
     renderArtist(artist);
     renderTracks(currentTracks);
     showArtistContent();
   } catch (error) {
-    console.error("Errore durante il caricamento:", error);
-
-    showError(
-      "Non è stato possibile caricare l'artista. Controlla la console."
-    );
+    console.log(error);
+    showError("Non è stato possibile mostrare l'artista.");
   }
-}
-
-async function fetchArtist(artistId) {
-  const response = await fetch(
-    `${API_BASE_URL}/artist/${artistId}`
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      `Errore artista: ${response.status} ${response.statusText}`
-    );
-  }
-
-  return response.json();
-}
-
-async function fetchArtistTopTracks(artistId) {
-  const response = await fetch(
-    `${API_BASE_URL}/artist/${artistId}/top?limit=10`
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      `Errore brani: ${response.status} ${response.statusText}`
-    );
-  }
-
-  return response.json();
 }
 
 function renderArtist(artist) {
@@ -130,11 +105,8 @@ function renderTracks(tracks) {
     popularTracks.appendChild(trackRow);
   });
 
-  // Se non c'è nulla da rivelare nascondiamo il pulsante,
-  // invece di lasciarlo visibile e inerte.
   if (tracks.length <= TRACKS_PREVIEW) {
-    showMoreTracks.classList.add("d-none");
-
+    showMoreTracks.classList.add("d-none"); // se non c'è nulla, nascondiamo il pulsante
     return;
   }
 
@@ -217,21 +189,6 @@ showMoreTracks.addEventListener("click", () => {
 
   renderTracks(currentTracks);
 });
-
-function formatNumber(number) {
-  if (typeof number !== "number") {
-    return "0";
-  }
-
-  return number.toLocaleString("it-IT");
-}
-
-function formatDuration(totalSeconds) {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-}
 
 function showArtistContent() {
   loadingMessage.classList.add("d-none");

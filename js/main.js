@@ -10,6 +10,9 @@ const homeSections = [
   { title: 'Altro di ciò che ti piace', query: 'queen', layout: 'card', limit: 5 },
 ]
 
+// Album in evidenza mostrato nel banner in cima alla homepage (default)
+const featuredAlbumId = 215835692
+
 
 /*
   La ricerca restituisce i brani ma NON album, e più brani possono appartenere
@@ -31,6 +34,7 @@ const uniqueAlbums = (tracks, limit) => {
       title: track.album.title,
       cover: track.album.cover_medium,
       artist: track.artist ? track.artist.name : '',
+      artistId: track.artist ? track.artist.id : null,
     })
   })
 
@@ -57,11 +61,13 @@ const createTile = (album) => { // copertina piccola a sinistra, titolo accanto
   return link
 }
 
-
 const createCard = (album) => { // copertina sopra, titolo e artista sotto
-  const link = document.createElement('a')
-  link.classList.add('home-card')
-  link.href = `../album/album.html?id=${album.id}`
+  const card = document.createElement('article')
+  card.classList.add('home-card')
+
+  const albumLink = document.createElement('a')
+  albumLink.classList.add('home-card-link')
+  albumLink.href = `../album/album.html?id=${album.id}`
 
   const cover = document.createElement('img')
   cover.classList.add('home-card-cover')
@@ -72,13 +78,85 @@ const createCard = (album) => { // copertina sopra, titolo e artista sotto
   title.classList.add('home-card-title')
   title.textContent = album.title
 
-  const artist = document.createElement('div')
-  artist.classList.add('home-card-artist')
-  artist.textContent = album.artist
+  albumLink.append(cover, title)
+  card.appendChild(albumLink)
 
-  link.append(cover, title, artist)
+  // Senza id artista il nome resta testo semplice, non un link rotto
+  if (album.artistId) {
+    const artistLink = document.createElement('a')
+    artistLink.classList.add('home-card-artist')
+    artistLink.href = `../artist/artist.html?id=${album.artistId}`
+    artistLink.textContent = album.artist
 
-  return link
+    card.appendChild(artistLink)
+
+    return card
+  }
+
+  const artistName = document.createElement('div')
+  artistName.classList.add('home-card-artist')
+  artistName.textContent = album.artist
+
+  card.appendChild(artistName)
+
+  return card
+}
+
+
+// Banner dell'album in evidenza: copertina grande a sinistra, dati a destra
+const createHero = (album) => {
+  const hero = document.createElement('section')
+  hero.classList.add('home-hero')
+
+  const coverLink = document.createElement('a')
+  coverLink.classList.add('home-hero-cover-link')
+  coverLink.href = `../album/album.html?id=${album.id}`
+
+  const cover = document.createElement('img')
+  cover.classList.add('home-hero-cover')
+  cover.src = album.cover_xl || album.cover_big
+  cover.alt = `Copertina di ${album.title}`
+
+  coverLink.appendChild(cover)
+
+  const info = document.createElement('div')
+  info.classList.add('home-hero-info')
+
+  const label = document.createElement('p')
+  label.classList.add('home-hero-label')
+  label.textContent = 'ALBUM'
+
+  const title = document.createElement('h1')
+  title.classList.add('home-hero-title')
+  title.textContent = album.title
+
+  const artistLink = document.createElement('a')
+  artistLink.classList.add('home-hero-artist')
+  artistLink.href = `../artist/artist.html?id=${album.artist.id}`
+  artistLink.textContent = album.artist.name
+
+  const meta = document.createElement('p')
+  meta.classList.add('home-hero-meta')
+  meta.textContent = `${(album.release_date || '').slice(0, 4)} • ${album.nb_tracks} brani`
+
+  const actions = document.createElement('div')
+  actions.classList.add('home-hero-actions')
+
+  const playLink = document.createElement('a')
+  playLink.classList.add('home-hero-play')
+  playLink.href = `../album/album.html?id=${album.id}`
+  playLink.textContent = 'Play'
+
+  const saveButton = document.createElement('button')
+  saveButton.classList.add('home-hero-save')
+  saveButton.type = 'button'
+  saveButton.textContent = 'Salva'
+
+  actions.append(playLink, saveButton)
+  info.append(label, title, artistLink, meta, actions)
+  hero.append(coverLink, info)
+
+  return hero
 }
 
 
@@ -130,9 +208,10 @@ const loadHomePage = async () => {
   showHomeMessage('Caricamento in corso...')
 
   try {
-    const results = await Promise.all(
-      homeSections.map((section) => getMusic(section.query))
-    )
+    const [featuredAlbum, ...results] = await Promise.all([
+      getAlbum(featuredAlbumId),
+      ...homeSections.map((section) => getMusic(section.query))
+    ])
 
 
     const usable = results.filter((result) => result && Array.isArray(result.data))
@@ -143,6 +222,10 @@ const loadHomePage = async () => {
     }
 
     homeContent.innerHTML = ''
+
+    if (featuredAlbum) { // se il banner non arriva mostriamo comunque le sezioni
+      homeContent.appendChild(createHero(featuredAlbum))
+    }
 
     homeSections.forEach((section, index) => {
       const result = results[index]
@@ -156,6 +239,5 @@ const loadHomePage = async () => {
     showHomeMessage('Non è stato possibile caricare i contenuti.')
   }
 }
-
 
 loadHomePage()
